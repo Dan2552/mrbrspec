@@ -10,9 +10,9 @@ module MrbRSpec
       mruby = "mundle exec mruby" if File.file?(File.join(Dir.pwd, "Mundlefile"))
 
       output = "mrbrspec"
-      before_files = Dir.glob(File.join(this_dir, "..", "..", "mruby", "before", "*.rb"))
+      before_files = Dir.glob(File.join(this_dir, "..", "..", "mruby", "before", "**", "*.rb"))
       app_spec_files = Dir.glob(File.join("spec", "*.rb"))
-      after_files = Dir.glob(File.join(this_dir, "..", "..", "mruby", "after", "*.rb"))
+      after_files = Dir.glob(File.join(this_dir, "..", "..", "mruby", "after", "**", "*.rb"))
 
       compile = (%W(#{mrbc} -o#{output} -g) + before_files + app_spec_files + after_files).join(" ")
       chmod = "chmod +x #{output}"

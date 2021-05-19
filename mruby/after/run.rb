@@ -17,11 +17,26 @@ end
 
 begin
   start = Time.now.to_f
-  _root.start
+  _top_level_describes.each do |describe|
+    describe.start
+  end
   finish = Time.now.to_f
 
-  puts "\n\nFinished in #{finish - start} seconds"
-  puts "\e[32m#{MrbRSpec::Summary.instance.examples} examples, 0 failures\e[0m"
+  summary = MrbRSpec::Summary.instance
+
+  puts "\n\n"
+
+  summary.failures.each do |failure|
+    puts "#{failure}"
+  end
+
+  puts "Finished in #{finish - start} seconds"
+  if summary.success?
+    print "\e[32m"
+  else
+    print "\e[31m"
+  end
+  puts "#{summary.examples} examples, #{summary.failures.count} failures\e[0m"
 rescue => e
   puts e.inspect
   e.backtrace.each do |line|
