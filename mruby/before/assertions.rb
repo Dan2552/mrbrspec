@@ -31,4 +31,18 @@ module MrbRSpec
       "Expected #{value} to be included in #{array}"
     )
   end
+
+  def self.assert_less_than(lhs, rhs)
+    assert(
+      lhs < rhs,
+      "Expected #{lhs} to be less than #{rhs} (#{lhs} < #{rhs})"
+    )
+  end
+
+  def self.assert_more_than(lhs, rhs)
+    assert(
+      lhs > rhs,
+      "Expected #{lhs} to be less than #{rhs} (#{lhs} > #{rhs})"
+    )
+  end
 end

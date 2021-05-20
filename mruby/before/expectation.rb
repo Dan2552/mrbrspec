@@ -6,6 +6,12 @@ module MrbRSpec
       @blk = blk
     end
 
+    def be
+      MrbRSpec::BeMatcher.new.tap do |m|
+        _matchers << m
+      end
+    end
+
     def eq(x)
       MrbRSpec::EqualMatcher.new(x).tap do |m|
         _matchers << m
