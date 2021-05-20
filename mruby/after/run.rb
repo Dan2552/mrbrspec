@@ -1,23 +1,27 @@
-class Object
-  def method_missing(meth, *args, &blk)
-    puts "\e[31mUndefined method '#{meth}' for #{self.class} - #{self.inspect}\e[0m"
-    if caller
-      print "\e[36m"
-      caller.each do |line|
-        puts line
+is_cruby = Object.const_defined?(:ENV)
+
+if !is_cruby
+  class Object
+    def method_missing(meth, *args, &blk)
+      puts "\e[31mUndefined method '#{meth}' for #{self.class} - #{self.inspect}\e[0m"
+      if caller
+        print "\e[36m"
+        caller.each do |line|
+          puts line
+        end
+        print "\e[0m"
+      else
+        puts "\e[36mNo backtrace\e[0m"
       end
-      print "\e[0m"
-    else
-      puts "\e[36mNo backtrace\e[0m"
+      puts ""
+      super
     end
-    puts ""
-    super
   end
 end
 
 begin
   start = Time.now.to_f
-  _top_level_describes.each do |describe|
+  MrbRSpec.top_level_describes.each do |describe|
     describe.start
   end
   finish = Time.now.to_f

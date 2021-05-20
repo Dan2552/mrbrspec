@@ -1,5 +1,7 @@
-def _top_level_describes
-  @@_top_level_describes ||= []
+module MrbRSpec
+  def self.top_level_describes
+    @top_level_describes ||= []
+  end
 end
 
 def describe(x, &blk)
@@ -11,7 +13,7 @@ def describe(x, &blk)
 
   new_scope.instance_eval(&blk)
 
-  _top_level_describes << new_scope
+  MrbRSpec.top_level_describes << new_scope
 end
 
 def context(*args, &blk)

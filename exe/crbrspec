@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+Dir.glob(File.join(Dir.pwd, "lib", "*.rb")).each do |file|
+  load file.to_s
+end
+
+Dir.glob(File.join(__dir__, "..", "mruby", "before", "**", "*.rb")).each do |file|
+  load file.to_s
+end
+
+Dir.glob(File.join(Dir.pwd, "spec", "**", "*.rb")).each do |file|
+  load file.to_s
+end
+
+Dir.glob(File.join(__dir__, "..", "mruby", "after", "**", "*.rb")).each do |file|
+  load file.to_s
+end
