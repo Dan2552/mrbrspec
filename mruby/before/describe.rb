@@ -46,7 +46,7 @@ module MrbRSpec
       child.instance_eval(&blk)
     end
 
-    def it(name, &blk)
+    def it(name = "", &blk)
       # puts "#{indentation}#{name}"
       example = MrbRSpec::Expectation.new(name, self, &blk)
       examples << example

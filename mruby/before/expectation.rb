@@ -57,6 +57,10 @@ module MrbRSpec
       end
     end
 
+    def is_expected(&blk)
+      expect(subject, &blk)
+    end
+
     def _start
       instance_eval(&@blk)
     end
