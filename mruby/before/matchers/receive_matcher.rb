@@ -10,10 +10,11 @@ module MrbRSpec
       @object_to_stub = object_to_stub
       called = []
       @called = called
+      return_value = @and_return
 
       Stubbing.stub(object_to_stub, @method_name) do |*args|
         called << args
-        nil
+        return_value
       end
     end
 
@@ -26,6 +27,11 @@ module MrbRSpec
 
     def with(*args)
       @args = args
+      self
+    end
+
+    def and_return(return_value)
+      @and_return = return_value
       self
     end
   end

@@ -4,9 +4,14 @@ module MrbRSpec
       @args = args.to_h
     end
 
+    attr_reader :id
+
     def method_missing(meth, *args, &blk)
-      args[meth]
-      super
+      if @args.key?(meth)
+        @args[meth]
+      else
+        super
+      end
     end
   end
 end

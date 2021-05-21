@@ -6,14 +6,46 @@ module MrbRSpec
       @blk = blk
     end
 
+    def instance_of(cls)
+      InstanceOf.new(cls)
+    end
+
+    def yield_with_args(*args)
+      MrbRSpec::YieldWithArgsMatcher.new(args).tap do |m|
+        _matchers << m
+      end
+    end
+
+    def be_a(x)
+      MrbRSpec::BeAMatcher.new(x).tap do |m|
+        _matchers << m
+      end
+    end
+
+    def be_an(*args)
+      be_a(*args)
+    end
+
     def be
       MrbRSpec::BeMatcher.new.tap do |m|
         _matchers << m
       end
     end
 
+    def be_something(meth)
+      MrbRSpec::BeSomethingMatcher.new(meth).tap do |m|
+        _matchers << m
+      end
+    end
+
     def eq(x)
       MrbRSpec::EqualMatcher.new(x).tap do |m|
+        _matchers << m
+      end
+    end
+
+    def eql(x)
+      MrbRSpec::EqlMatcher.new(x).tap do |m|
         _matchers << m
       end
     end
@@ -30,7 +62,7 @@ module MrbRSpec
       end
     end
 
-    def raise_error(x)
+    def raise_error(x = nil)
       MrbRSpec::RaiseErrorMatcher.new(x).tap do |m|
         _matchers << m
       end
@@ -38,6 +70,12 @@ module MrbRSpec
 
     def receive(x)
       MrbRSpec::ReceiveMatcher.new(x, self).tap do |m|
+        _matchers << m
+      end
+    end
+
+    def all(x)
+      MrbRSpec::AllMatcher.new(x).tap do |m|
         _matchers << m
       end
     end
@@ -79,6 +117,7 @@ module MrbRSpec
       if @parent.has_let?(meth)
         @parent.let_value(meth)
       else
+        return be_something(meth) if meth.to_s.start_with?("be_") && args.count == 0
         puts "Expectation: Couldn't find method or let: #{meth}"
         super
       end

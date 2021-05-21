@@ -5,6 +5,7 @@ module MrbRSpec
       @parent = parent
       @description = "#{indentation}describe \"#{name}\""
       @root = parent == nil
+      SharedExamples.current_describe << self
     end
 
     attr_reader :parent
@@ -74,6 +75,16 @@ module MrbRSpec
       parent.all_lets.merge(lets)
     end
 
+    def all_befores
+      return befores unless parent
+      parent.all_befores + befores
+    end
+
+    def all_afters
+      return afters unless parent
+      parent.all_afters + afters
+    end
+
     def start
       examples.each do |example|
         Summary.instance.examples += 1
@@ -82,14 +93,16 @@ module MrbRSpec
         @let_values = {}
 
         begin
-          befores.each { |blk| instance_eval(&blk) }
+          all_befores.each { |blk| instance_eval(&blk) }
           example._start
           example._confirm_matchers
-          afters.each { |blk| instance_eval(&blk) }
+          all_afters.each { |blk| instance_eval(&blk) }
           print "\e[32m.\e[0m"
-        rescue AssertionFailure => e
+        rescue Exception => e # AssertionFailure => e
           print "\e[31mF\e[0m"
           Summary.instance.failures << Failure.new(example, e)
+        ensure
+          Stubbing.reset
         end
       end
       children.each { |c| c.start }

@@ -7,7 +7,7 @@ if !is_cruby
       if caller
         print "\e[36m"
         caller.each do |line|
-          puts line
+          puts line unless line.include?("mrbrspec/lib/mrbrspec")
         end
         print "\e[0m"
       else
