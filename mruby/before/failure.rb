@@ -10,7 +10,8 @@ module MrbRSpec
 
     def inspect
       # eval(DEBUGGER)
-      string = "Expection at \e[1m#{expectation.source_location}\e[22m failed:\n"
+      string = "Expection failed: #{expectation._expectation_name}\n"
+      string += "Expection at \e[1m#{expectation.source_location}\e[22m failed:\n"
       string += "#{error}\n"
       backtrace = error.backtrace
 

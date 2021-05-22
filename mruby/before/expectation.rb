@@ -1,10 +1,12 @@
 module MrbRSpec
   class Expectation
     def initialize(name, parent, &blk)
-      @name = name
+      @_expectation_name = name
       @parent = parent
       @blk = blk
     end
+
+    attr_reader :_expectation_name
 
     def instance_of(cls)
       InstanceOf.new(cls)
