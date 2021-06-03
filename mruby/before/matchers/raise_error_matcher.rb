@@ -10,9 +10,19 @@ module MrbRSpec
 
     def compare(value)
       value.call
+      MrbRSpec.assert(false, "Expected to raise error, but did not (expected #{@value})")
     rescue Exception => e
-      MrbRSpec.assert_equal(e.class, @value.class)
-      MrbRSpec.assert_equal(e.message, @value.message)
+      raise e if e.is_a?(MrbRSpec::AssertionFailure)
+
+      if @value.class == Class
+        MrbRSpec.assert_equal(e.class, @value)
+      else
+        MrbRSpec.assert_equal(e.class, @value.class)
+      end
+
+      if @value.respond_to?(:message)
+        MrbRSpec.assert_equal(e.message, @value.message)
+      end
     end
 
     def compare_not(value)
