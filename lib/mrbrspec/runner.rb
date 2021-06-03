@@ -11,7 +11,7 @@ module MrbRSpec
 
       output = "mrbrspec"
       before_files = Dir.glob(File.join(this_dir, "..", "..", "mruby", "before", "**", "*.rb"))
-      app_spec_files = Dir.glob(File.join("spec", "*.rb"))
+      app_spec_files = Dir.glob(File.join("spec", "**", "*.rb"))
       after_files = Dir.glob(File.join(this_dir, "..", "..", "mruby", "after", "**", "*.rb"))
 
       compile = (%W(#{mrbc} -o#{output} -g) + before_files + app_spec_files + after_files).join(" ")
