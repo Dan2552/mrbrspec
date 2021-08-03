@@ -40,20 +40,16 @@ gem "mrbrspec", git: "https://github.com/Dan2552/mrbrspec"
 The `Mundlefile` may look like:
 
 ``` ruby
-# mruby/mruby 0f45836
+mruby tag: "3.0.0"
 
-only_host_platform!
-
-conf.gembox 'default'
-
-conf.gem(Dir.pwd)
-conf.gem(core: "mruby-bin-mruby")
+gembox "default"
+gem "my_gem", path: "."
 ```
 
 By running the following, will compile the gem, and then run specs:
 
 ``` bash
-bundle exec mundle update # (Re)compile mruby and the mrbgem
+bundle exec mundle update # (Re)compile mruby and the mrbgem
 bundle exec mrbrspec # Run specs
 ```
 
