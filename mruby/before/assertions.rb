@@ -32,6 +32,13 @@ module MrbRSpec
     )
   end
 
+  def self.refute_includes(array, value)
+    refute(
+      array.include?(value),
+      "Expected #{value.inspect} to not be included in #{array.inspect}"
+    )
+  end
+
   def self.assert_less_than(lhs, rhs)
     assert(
       lhs < rhs,
